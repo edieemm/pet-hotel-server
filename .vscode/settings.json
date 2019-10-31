@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/mikelynch/prime/tier3/pet-hotel-server/venv/bin/python3"
+    "python.pythonPath": "/Users/mikelynch/prime/tier3/pet-hotel-server/venv/bin/python3",
+    "python.formatting.provider": "black"
 }
