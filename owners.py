@@ -7,6 +7,7 @@ app = Flask(__name__)
 @app.route('/owner', methods=['GET', 'POST'])
 def owner_router_get_post():
     if request.method == 'POST':
+#        print (request.args.get('name'))
         add_owner( request.args.get('name') )
         return 'POST'
     elif request.method == 'GET':
@@ -43,10 +44,13 @@ def get_owners():
 
 def add_owner(name):
     conn = None
+    query = "INSERT INTO owner (name) VALUES (%s);"
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
-        cur = con.cursor()
-        cur.execute("INSERT INTO owner (name) VALUES (%s);")
+        cur = conn.cursor()
+        cur.execute(query, (name,))
+        conn.commit()
+        cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
@@ -54,13 +58,13 @@ def add_owner(name):
             conn.close()
 
 
-def delete_owner(id):
+def delete_owner(id_):
     conn = None
     query = "DELETE FROM owner WHERE id = %s;"
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
-        cur.execute(query, (id))
+        cur.execute(query, (id_,))
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
