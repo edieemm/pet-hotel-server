@@ -3,6 +3,26 @@ import psycopg2
 import json
 
 
+@app.route('/owner', methods=['GET', 'POST'])
+def owner_router_get_post():
+    if request.method == 'POST':
+        add_owner( request.args.get('name') )
+        return 'POST'
+    elif request.method == 'GET':
+        owners = get_owners()
+        return jsonify(owners)
+    else: 
+        return 'No valid method requested'
+
+
+@app.route('/owner/<id_>', methods=['DELETE'])
+def owner_router_delete():
+    if request.method == 'DELETE':
+        return 'DELETE'
+    else: 
+        return 'No valid method requested'
+
+
 def get_owners():
     conn = None
     try:
@@ -32,10 +52,3 @@ def add_owner(name):
             conn.close()
 
 
-# app = Flask(__name__)
-
-
-@app.route("/owner", methods=['GET', 'POST', 'DELETE'])
-def owners():
-    owners = json.dumps(get_owners())
-    return(owners)
