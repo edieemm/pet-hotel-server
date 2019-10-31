@@ -33,6 +33,7 @@ def pet_checkin_route(id_):
     checkin_pet(id_)
     return 'Pet {id_} details updated'
 
+# GET FUNCTION
 def get_pets():
     conn = None
     query = "SELECT * FROM pet;"
@@ -49,6 +50,7 @@ def get_pets():
         if conn is not None:
             conn.close()
 
+# POST FUNCTION
 def post_pets(name, owner_id, breed, color):
     conn = None
     query = "INSERT INTO pet (name, owner_id, breed, color) VALUES (%s, %s, %s, %s);"
@@ -64,6 +66,7 @@ def post_pets(name, owner_id, breed, color):
         if conn is not None:
             conn.close()
 
+# DELETE FUNCTION :(
 def send_pet_to_farm(pet_id):
     conn = None
     query = "DELETE FROM pet WHERE id = %s;"
@@ -80,6 +83,7 @@ def send_pet_to_farm(pet_id):
         if conn is not None:
             conn.close()
 
+# PUT FUNCTION FOR DETAILS
 def update_pet_details(name, owner_id, breed, color, pet_id):
     conn = None
     query = "UPDATE pet SET name = %s, owner_id=%s, breed=%s, color=%s WHERE id = %s;"
@@ -95,6 +99,7 @@ def update_pet_details(name, owner_id, breed, color, pet_id):
         if conn is not None:
             conn.close()
 
+# PUT FUNCTION FOR CHECKIN 
 def checkin_pet(pet_id):
     conn = None
     query = "UPDATE pet SET checked_in = current_date WHERE id = %s;"
