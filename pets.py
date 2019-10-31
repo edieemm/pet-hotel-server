@@ -18,17 +18,17 @@ def pets_router():
     else: 
         return 'No valid method requested'
 
-@app.route('/pets/remove/<id_>', methods=['DELETE'])
+@app.route('/pets/remove/<id_>')
 def delete_pet(id_):
     send_pet_to_farm(id_)
     return 'The pet with id {id_} was sent to the farm for good dogs.'
 
-@app.route('/pets/update/<id_>', methods=['PUT'])
+@app.route('/pets/update/<id_>')
 def update_pet_details_route(id_):
     update_pet_details('Buddy', 3, 'German Shepherd', 'Brown', id_)
     return 'The pet with id {id_} was updated.'
 
-@app.route('/pets/checkin/<id_>', methods=['PUT'])
+@app.route('/pets/checkin/<id_>')
 def pet_checkin_route(id_):
     checkin_pet(id_)
     return 'Pet {id_} details updated'
