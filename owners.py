@@ -19,17 +19,17 @@ def get_owners():
             conn.close()
 
 
-# def add_owner():
-#     conn = None
-#     try:
-#         conn = psycopg2.connect("dbname=pet_hotel")
-#         cur = con.cursor()
-#         cur.execute("ADD")
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print(error)
-#     finally:
-#         if conn is not None:
-#             conn.close()
+def add_owner(name):
+    conn = None
+    try:
+        conn = psycopg2.connect("dbname=pet_hotel")
+        cur = con.cursor()
+        cur.execute("INSERT INTO owner(name) VALUE")
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
 
 # app = Flask(__name__)
