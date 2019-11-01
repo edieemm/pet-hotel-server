@@ -24,7 +24,7 @@ def pets_router():
 @app.route('/pets/remove/', methods=['DELETE'] )
 def delete_pet():
     id = request.args.get('id')
-    send_pet_to_farm(request.args.get('id'))
+    send_pet_to_farm(id)
     return 'The pet was sent to the farm for good dogs.'
 
 @app.route('/pets/update/', methods=['PUT'])
