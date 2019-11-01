@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import psycopg2
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/pets', methods=['GET', 'POST'])
 def pets_router():
@@ -19,10 +21,11 @@ def pets_router():
     else: 
         return 'No valid method requested'
 
-@app.route('/pets/remove/<id_>')
-def delete_pet(id_):
-    send_pet_to_farm(id_)
-    return 'The pet with id {id_} was sent to the farm for good dogs.'
+@app.route('/pets/remove/', methods=['DELETE'] )
+def delete_pet():
+    id = request.args.get('id')
+    send_pet_to_farm(id)
+    return 'The pet was sent to the farm for good dogs.'
 
 @app.route('/pets/update/', methods=['PUT'])
 def update_pet_details_route():
@@ -35,15 +38,16 @@ def update_pet_details_route():
         )
     return 'The pet with id {id_} was updated.'
 
-@app.route('/pets/checkin/<id_>')
-def pet_checkin_route(id_):
-    checkin_pet(id_)
-    return 'Pet {id_} details updated'
+@app.route('/pets/checkin/', methods=['PUT'])
+def pet_checkin_route():
+    id = request.get_json()['id']
+    checkin_pet(id)
+    return('Pet checked in')
 
 # GET FUNCTION
 def get_pets():
     conn = None
-    query = "SELECT * FROM pet;"
+    query = "SELECT * FROM pet ORDER BY id;"
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
@@ -80,8 +84,7 @@ def send_pet_to_farm(pet_id):
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
-        cur.execute(query, (pet_id))
-        return('Sent pet with id {pet_id} to the farm.')
+        cur.execute(query, (pet_id,))
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -113,7 +116,7 @@ def checkin_pet(pet_id):
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
-        cur.execute(query, (pet_id))
+        cur.execute(query, (pet_id,))
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
