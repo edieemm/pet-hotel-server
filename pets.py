@@ -24,9 +24,15 @@ def delete_pet(id_):
     send_pet_to_farm(id_)
     return 'The pet with id {id_} was sent to the farm for good dogs.'
 
-@app.route('/pets/update/<id_>')
-def update_pet_details_route(id_):
-    update_pet_details('Buddy', 3, 'German Shepherd', 'Brown', id_)
+@app.route('/pets/update/', methods=['PUT'])
+def update_pet_details_route():
+    update_pet_details(
+        request.form.get('name'),
+        request.form.get('owner_id'),
+        request.form.get('breed'),
+        request.form.get('color'),
+        request.form.get('pet_id')
+        )
     return 'The pet with id {id_} was updated.'
 
 @app.route('/pets/checkin/<id_>')
@@ -58,7 +64,7 @@ def post_pets(name, owner_id, breed, color):
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
-        cur.execute(query, (name, owner_id, breed, color))
+        cur.execute(query, (name, owner_id, breed, color,))
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -91,7 +97,7 @@ def update_pet_details(name, owner_id, breed, color, pet_id):
     try:
         conn = psycopg2.connect("dbname=pet_hotel")
         cur = conn.cursor()
-        cur.execute(query, (name, owner_id, breed, color, pet_id))
+        cur.execute(query, (name, owner_id, breed, color, pet_id,))
         conn.commit()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
