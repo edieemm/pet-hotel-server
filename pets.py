@@ -8,11 +8,12 @@ CORS(app)
 @app.route('/pets', methods=['GET', 'POST'])
 def pets_router():
     if request.method == 'POST':
+        data = request.get_json()
         post_pets(
-            request.form.get('name'),
-            request.form.get('owner_id'),
-            request.form.get('breed'),
-            request.form.get('color') )
+            data['name'],
+            data['owner_id'],
+            data['breed'],
+            data['color'] )
         return 'Created'
     elif request.method == 'GET':
         pets = get_pets()
