@@ -6,11 +6,12 @@ app = Flask(__name__)
 @app.route('/pets', methods=['GET', 'POST'])
 def pets_router():
     if request.method == 'POST':
+        data = request.get_json()
         post_pets(
-            request.args.get('name'),
-            request.args.get('owner_id'),
-            request.args.get('breed'),
-            request.args.get('color') )
+            data['name'],
+            data['owner_id'],
+            data['breed'],
+            data['color'] )
         return 'Created'
     elif request.method == 'GET':
         pets = get_pets()

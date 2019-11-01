@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
 import psycopg2
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/owner', methods=['GET', 'POST'])
 def owner_router_get_post():
